@@ -2,7 +2,7 @@ use std::{path::PathBuf, str::FromStr};
 
 use clap::Parser;
 use color_eyre::{eyre::eyre, Result};
-use solana_client::rpc_client::RpcClient;
+use miraland_client::rpc_client::RpcClient;
 use solana_sdk::{
     bpf_loader_upgradeable::{self, UpgradeableLoaderState},
     pubkey::Pubkey,
@@ -10,8 +10,8 @@ use solana_sdk::{
 
 #[derive(Parser)]
 struct Args {
-    #[clap(short, long, default_value = "mainnet-beta")]
-    /// The rpc endpoint to connect to. Either a url or one of the following: [mainnet-beta (m), testnet (t), devnet (d), localhost (l)]
+    #[clap(short, long, default_value = "mainnet")]
+    /// The rpc endpoint to connect to. Either a url or one of the following: [mainnet (m), testnet (t), devnet (d), localhost (l)]
     url: String,
     #[clap()]
     /// Either the pubkey of a program to query or the path to a file containing a compiled program
@@ -35,7 +35,7 @@ fn main() -> Result<()> {
 fn query_local(file: PathBuf) -> Result<()> {
     let program_data = std::fs::read(file)?;
 
-    let security_txt = solana_security_txt::find_and_parse(&program_data)?;
+    let security_txt = miraland_security_txt::find_and_parse(&program_data)?;
     println!("{}", security_txt);
 
     Ok(())
@@ -43,9 +43,9 @@ fn query_local(file: PathBuf) -> Result<()> {
 
 fn query_remote(url: &str, pubkey: Pubkey) -> Result<()> {
     let url = match url {
-        "mainnet-beta" | "m" => "https://api.mainnet-beta.solana.com",
-        "testnet" | "t" => "https://api.testnet.solana.com",
-        "devnet" | "d" => "https://api.devnet.solana.com",
+        "mainnet" | "m" => "https://api.mainnet-mln.miraland.top",
+        "testnet" | "t" => "https://api.testnet-mln.miraland.top",
+        "devnet" | "d" => "https://api.devnet-mln.miraland.top",
         "localhost" | "l" => "http://localhost:8899",
         s => s,
     };
@@ -77,13 +77,14 @@ fn query_remote(url: &str, pubkey: Pubkey) -> Result<()> {
         .get_account(&program_data_address)
         .map_err(|_| eyre!("Couldn't fetch program data account"))?;
 
-    let offset = UpgradeableLoaderState::programdata_data_offset()?;
+    // let offset = UpgradeableLoaderState::programdata_data_offset()?;
+    let offset = UpgradeableLoaderState::size_of_programdata_metadata();
     if program_data_account.data.len() < offset {
         return Err(eyre!("Account is too small to be a program data account"));
     }
     let program_data = &program_data_account.data[offset..];
 
-    let security_txt = solana_security_txt::find_and_parse(program_data)?;
+    let security_txt = miraland_security_txt::find_and_parse(program_data)?;
     println!("{}", security_txt);
 
     Ok(())

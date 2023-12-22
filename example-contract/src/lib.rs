@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 
-use solana_security_txt::security_txt;
+use miraland_security_txt::security_txt;
 
 #[cfg(not(feature = "no-entrypoint"))]
 security_txt! {
@@ -8,7 +8,7 @@ security_txt! {
     name: "Example",
     project_url: "http://example.com",
     contacts: "email:example@example.com,link:https://example.com/security,discord:example#1234",
-    policy: "https://github.com/solana-labs/solana/blob/master/SECURITY.md",
+    policy: "https://github.com/miraland-labs/miraland/blob/master/SECURITY.md",
 
     // Optional Fields
     preferred_languages: "en,de",

@@ -1,18 +1,18 @@
 # security.txt
 
-[![](https://img.shields.io/crates/v/solana-security-txt)](https://crates.io/crates/solana-security-txt) [![](https://docs.rs/solana-security-txt/badge.svg)](https://docs.rs/solana-security-txt/) 
+[![](https://img.shields.io/crates/v/miraland-security-txt)](https://crates.io/crates/miraland-security-txt) [![](https://docs.rs/miraland-security-txt/badge.svg)](https://docs.rs/miraland-security-txt/) 
 
 [![](https://img.shields.io/crates/v/query-security-txt)](https://crates.io/crates/query-security-txt)
 
-This library defines a macro, which allows developers to provide easy-to-parse information to security researchers that wish to contact the authors of a Solana smart contract.
+This library defines a macro, which allows developers to provide easy-to-parse information to security researchers that wish to contact the authors of a miraland smart contract.
 It is inspired by <https://securitytxt.org/>.
 
-See this example in the Solana Explorer: <https://explorer.solana.com/address/HPxKXnBN4vJ8RjpdqDCU7gvNQHeeyGnSviYTJ4fBrDt4/security?cluster=devnet>
+See this example in the miraland Explorer: <https://explorer.miraland.top/address/HPxKXnBN4vJ8RjpdqDCU7gvNQHeeyGnSviYTJ4fBrDt4/security?cluster=devnet>
 
 
 ## Motivation
 
-Users typically interact with a Solana smart contract via the project's web interface, which knows the contract's address. Security researchers often don't.
+Users typically interact with a miraland smart contract via the project's web interface, which knows the contract's address. Security researchers often don't.
 
 Especially for smaller or private projects, identification from just the contract's address is hard and time-consuming, if not impossible.
 This slows down or prevents bug reports from reaching the developers.
@@ -25,7 +25,7 @@ To maximize compatibility with existing deployment setups, multisigs and DAOs, t
 
 Add the following to the `[dependencies]` section of your Cargo.toml:
 ```toml
-solana-security-txt = "1.1.1"
+miraland-security-txt = "1.1.1"
 ```
 
 To install the querying tool, execute
@@ -69,7 +69,7 @@ You can use the `env!` macro to automatically configure values passed to the `se
 
 ```rust
 #[cfg(not(feature = "no-entrypoint"))]
-use {default_env::default_env, solana_security_txt::security_txt};
+use {default_env::default_env, miraland_security_txt::security_txt};
 
 #[cfg(not(feature = "no-entrypoint"))]
 security_txt! {
@@ -77,7 +77,7 @@ security_txt! {
     name: "Example",
     project_url: "http://example.com",
     contacts: "email:example@example.com,link:https://example.com/security,discord:example#1234",
-    policy: "https://github.com/solana-labs/solana/blob/master/SECURITY.md",
+    policy: "https://github.com/miraland-labs/miraland/blob/master/SECURITY.md",
 
     // Optional Fields
     preferred_languages: "en,de",
@@ -111,7 +111,7 @@ The following hackers could've stolen all our money but didn't:
 
 ### Example Policies
 
-Bug bounty policies can be a bit daunting to write. For a good and thorough example, take a look at Solana Foundation's [SECURITY.md](https://github.com/solana-labs/solana/blob/master/SECURITY.md). But even a very brief policy is better than none. A starting point might be something like:
+Bug bounty policies can be a bit daunting to write. For a good and thorough example, take a look at miraland Foundation's [SECURITY.md](https://github.com/miraland-labs/miraland/blob/master/SECURITY.md). But even a very brief policy is better than none. A starting point might be something like:
 
 > We pay a bug bounty at our discretion after verifying the bug, up to 10% of value at risk, limited by a maximum of $x. This bounty is only paid out if details about the security issues have not been provided to third parties before a fix has been introduced and verified. Furthermore, the reporter is in no way allowed to exploit the issue without our explicit consent.
 
@@ -119,8 +119,8 @@ If you don't pay bounties, which might be sensible for toy projects that don't h
 
 > We do not pay a bug bounty.
 
-For more inspiration, take a look at how other large Solana projects structure their policies (random, non-exhaustive collection):
-- <https://github.com/solana-labs/solana/security/policy>
+For more inspiration, take a look at how other large miraland projects structure their policies (random, non-exhaustive collection):
+- <https://github.com/miraland-labs/miraland/security/policy>
 - <https://forum.projectserum.com/t/formalizing-a-bug-bounty-program/410>
 - <https://docs.marinade.finance/developers/bug-bounty>
 - <https://docs.solend.fi/protocol/bug-bounty>
@@ -185,7 +185,7 @@ In addition to inserting the security.txt string into the binary, the macro crea
 
 ELF-aware parsers can thus simply look at this section and are not required to search the haystack for the security.txt markers.
 
-Since Solana may move away from ELF binaries in the future, this section is optional in the standard.
+Since miraland may move away from ELF binaries in the future, this section is optional in the standard.
 
 ## License
 
